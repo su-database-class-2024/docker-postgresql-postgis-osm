@@ -1,11 +1,11 @@
 # Docker image for postgis with osm2pgsql & shp2pgsql
 
-データベースシステム講義資料
-version 0.0.2
+データベースシステム講義資料  
+version 0.0.2  
 authors: N. Tsutsumida
 
-Copyright (c) 2024 Narumasa Tsutsumida
-Released under the MIT license
+Copyright (c) 2024 Narumasa Tsutsumida  
+Released under the MIT license  
 https://opensource.org/licenses/mit-license.php
 
 ## Prerequisites
