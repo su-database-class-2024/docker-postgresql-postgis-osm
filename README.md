@@ -1,10 +1,10 @@
 # Docker image for postgis with osm2pgsql & shp2pgsql
 
 データベースシステム講義資料
-version 0.0.1
+version 0.0.2
 authors: N. Tsutsumida
 
-Copyright (c) 2023 Narumasa Tsutsumida
+Copyright (c) 2024 Narumasa Tsutsumida
 Released under the MIT license
 https://opensource.org/licenses/mit-license.php
 
@@ -17,7 +17,7 @@ https://opensource.org/licenses/mit-license.php
 VScodeを立ち上げ、作業ディレクトリ内で以下をTerminalで実行する。　
 
 ```sh
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ## PosgreSQL / postGISへのアクセス
@@ -28,6 +28,6 @@ docker-compose up -d --build
 ## 停止
 Dockerコンテナを停止するには、起動する際に用いたローカルの作業ディレクトリでTerminalで以下を実行する。
 ```
-docker-compose down
+docker compose down
 ```
 もしくは、Docker extensionより、 `docker-posrgresql-postgis-osm` を右クリックし、`Compose stop`を実行する。

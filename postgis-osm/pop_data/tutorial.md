@@ -1,10 +1,10 @@
 # Import spatial data to postgreSQL
 
 データベースシステム講義資料
-version 0.0.1
+version 0.0.2
 authors: N. Tsutsumida
 
-Copyright (c) 2023 Narumasa Tsutsumida
+Copyright (c) 2024 Narumasa Tsutsumida
 Released under the MIT license
 https://opensource.org/licenses/mit-license.php
 
