@@ -1,12 +1,12 @@
 # Import spatial data to postgreSQL
 
-データベースシステム講義資料
-version 0.0.2
-authors: N. Tsutsumida
+データベースシステム講義資料  
+version 0.0.2  
+authors: N. Tsutsumida  
 
-Copyright (c) 2024 Narumasa Tsutsumida
-Released under the MIT license
-https://opensource.org/licenses/mit-license.php
+Copyright (c) 2024 Narumasa Tsutsumida  
+Released under the MIT license  
+https://opensource.org/licenses/mit-license.php  
 
 
 ## 1. 境界データのインポート
@@ -77,7 +77,7 @@ osm2pgsql --create --database=gisdb --slim --style=./default.style -U postgres -
 データのダウンロードに時間がかかるので、すでに入手したものを`/work/data/pop_data/data`に`mesh1.zip`と`prefs.zip`をおいている。
 `mesh1.zip`には、1km^2のグリッドデータ`mesh1.shp`がふくまれており、人流データの各データの位置と範囲を規定している。
 `prefs.zip`には関東圏の1都6県の月別の人流データが格納されている。
-この講義では負荷軽減のため感染拡大前の2019年1月、東京・神奈川・埼玉・千葉で緊急事態宣言が発出された期間（2020/4/7-2020/5/21）におおよそあたる2020年4月の集計データのみを使用する。
+この講義では負荷軽減のため、東京・神奈川・埼玉・千葉・群馬・栃木・茨城における、感染拡大前の2019年4月, 緊急事態宣言が出た2020年4月, ３回目緊急事態宣言の2021年4月のみを使用する。
 
 ### 3.1. meshデータ
 `mesh1.zip`を解凍する。
@@ -107,7 +107,7 @@ psql -U postgres -d gisdb -f /work/data/pop_data/data/mesh1/mesh1.sql
 ```
 
 ### 3.2. 人流データ(csv)のインポート
-一月ごとの集計データが入手可能。
+一月ごとの集計データが利用できる。
 `prefs.zip`には、関東圏の1都6県の月別の人流データが格納されている。
 この講義では負荷軽減のため2019年4月、2020年4月、2021年4月の集計データのみを使用する。
 
@@ -136,24 +136,8 @@ CREATE TABLE "pop" (
 ```
 #### 3.2.3. csvデータのインポート
 `pop_data`には1都6県の月別人流データが含まれている。
-zipを解凍してcsvファイルを取り出し、かつpostgresqlにインポートするためのsqlコマンドを作成するshellスクリプト（`copy_csv.sh`）を作成し、`/work/data/pop_data`に配置する（すでにあるはず）。
+zipを解凍してcsvファイルを取り出し、かつpostgresqlにインポートするためのsqlコマンドを作成するshellスクリプト（`copy_csv.sh`）を実行する。
 
-
-```sh
-#!/bin/sh
-unzip /work/data/pop_data/data/prefs.zip -d /work/data/pop_data/data
-
-for entry in /work/data/pop_data/data/prefs/*/*/*/*.zip
-do
-  datapath=`echo $(dirname $entry)`
-  unzip -o $entry -d $datapath
-  csvname=`echo $datapath'/monthly_mdp_mesh1km.csv'`
-  echo $csvname
-  echo "COPY pop FROM '$csvname' with (format csv, header true, null '', force_null(population));" >> /work/data/pop_data/copy_csv.sql
-done
-
-```
-作成したシェルを実行する．
 ```sh
 sh /work/data/pop_data/copy_csv.sh
 ```
@@ -170,7 +154,7 @@ psql -U postgres -d gisdb -f /work/data/pop_data/copy_csv.sql
 集計期間(平休日) `dayflag`は“0”:休日 “1”:平日 “2”:全日
 集計期間(時間帯) `timezone`は“0”:昼 “1”:深夜 “2”:終日
 である。
-ここでは2019年1月の休日・昼を考えてみよう。
+ここでは2019年4月の休日・昼を考えてみよう。
 
 以下をpsqlより実行して確認する。
 
