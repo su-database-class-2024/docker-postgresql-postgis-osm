@@ -1,12 +1,12 @@
 # Import spatial data to postgreSQL
 
-データベースシステム講義資料
-version 0.0.2
-authors: N. Tsutsumida
+データベースシステム講義資料  
+version 0.0.2  
+authors: N. Tsutsumida  
 
-Copyright (c) 2024 Narumasa Tsutsumida
-Released under the MIT license
-https://opensource.org/licenses/mit-license.php
+Copyright (c) 2024 Narumasa Tsutsumida  
+Released under the MIT license  
+https://opensource.org/licenses/mit-license.php  
 
 
 ## 1. 境界データのインポート
@@ -107,7 +107,7 @@ psql -U postgres -d gisdb -f /work/data/pop_data/data/mesh1/mesh1.sql
 ```
 
 ### 3.2. 人流データ(csv)のインポート
-一月ごとの集計データが入手可能。
+一月ごとの集計データが利用できる。
 `prefs.zip`には、関東圏の1都6県の月別の人流データが格納されている。
 この講義では負荷軽減のため2019年4月、2020年4月、2021年4月の集計データのみを使用する。
 
@@ -136,24 +136,8 @@ CREATE TABLE "pop" (
 ```
 #### 3.2.3. csvデータのインポート
 `pop_data`には1都6県の月別人流データが含まれている。
-zipを解凍してcsvファイルを取り出し、かつpostgresqlにインポートするためのsqlコマンドを作成するshellスクリプト（`copy_csv.sh`）を作成し、`/work/data/pop_data`に配置する（すでにあるはず）。
+zipを解凍してcsvファイルを取り出し、かつpostgresqlにインポートするためのsqlコマンドを作成するshellスクリプト（`copy_csv.sh`）を実行する。
 
-
-```sh
-#!/bin/sh
-unzip /work/data/pop_data/data/prefs.zip -d /work/data/pop_data/data
-
-for entry in /work/data/pop_data/data/prefs/*/*/*/*.zip
-do
-  datapath=`echo $(dirname $entry)`
-  unzip -o $entry -d $datapath
-  csvname=`echo $datapath'/monthly_mdp_mesh1km.csv'`
-  echo $csvname
-  echo "COPY pop FROM '$csvname' with (format csv, header true, null '', force_null(population));" >> /work/data/pop_data/copy_csv.sql
-done
-
-```
-作成したシェルを実行する．
 ```sh
 sh /work/data/pop_data/copy_csv.sh
 ```
